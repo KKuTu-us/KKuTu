@@ -41,7 +41,9 @@ var passport = require('passport');
 var Const	 = require("../const");
 var https	 = require('https');
 var fs		 = require('fs');
-
+//HSTS
+var helmet = require('helmet');
+ 
 var Language = {
 	'ko_KR': require("./lang/ko_KR.json"),
 	'en_US': require("./lang/en_US.json")
@@ -59,7 +61,6 @@ WebInit.MOBILE_AVAILABLE = [
 ];
 
 require("../sub/checkpub");
-
 JLog.info("<< KKuTu Web >>");
 Server.set('views', __dirname + "/views");
 Server.set('view engine', "pug");
@@ -76,6 +77,78 @@ Server.use(Exession({
 	resave: false,
 	saveUninitialized: true
 }));
+
+//HSTS 사용
+
+Server.use(helmet.hsts());
+ // HSTS
+var oneYearInSeconds = 31536000;
+Server.use(helmet.hsts({
+  maxAge: oneYearInSeconds,
+  includeSubDomains: true,
+  preload: true,
+  force: true
+ }));
+ 
+ //Fuck You Bot
+
+// HTTP to HTTPS
+/* Server.use((req, res, next) => {
+  if(req.protocol == 'http') {
+    let url = 'https://'+req.get('host')+req.path;
+    res.status(302).redirect(url);
+  }
+});
+*/
+
+// redirect HTTP to HTTPS
+Server.all('*', (req, res, next) =>
+{
+    let protocol = req.headers['x-forwarded-proto'] || req.protocol;
+
+    if (protocol == 'https')
+    {
+        next();
+    }
+    else
+    {
+        let from = `${protocol}://${req.hostname}${req.url}`;
+        let to = `https://${req.hostname}${req.url}`;
+
+        // log and redirect
+        console.log(`[${req.method}]: ${from} -> ${to}`);
+        res.redirect(to);
+    }
+});
+
+// X-Powered-By 관련 보안 적용
+
+Server.use(function (req, res, next) {
+  res.setHeader('X-Powered-By', 'KKuTu.us Web Server')
+  next()
+})
+
+//Server 헤더 추가
+Server.use(function (req, res, next) {
+  res.setHeader('Server', 'Microsoft-IIS/7.0')
+  next()
+})
+
+//아잉
+
+Server.use(function (req, res, next) {
+  res.setHeader('Hello', 'Welcome to Developer Console :)')
+  next()
+})
+
+// CDN 사용
+
+Server.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Methods", "GET, POST");
+  next();
+});
+
 //볕뉘 수정
 Server.use(passport.initialize());
 Server.use(passport.session());
@@ -85,7 +158,8 @@ Server.use((req, res, next) => {
 	}
 	next();
 });
-Server.use((req, res, next) => {
+
+/* Server.use((req, res, next) => {
 	if(Const.IS_SECURED) {
 		if(req.protocol == 'http') {
 			let url = 'https://'+req.get('host')+req.path;
@@ -97,25 +171,25 @@ Server.use((req, res, next) => {
 		next();
 	}
 });
-//볕뉘 수정 끝
-/* use this if you want
+*/
 
+//볕뉘 수정 끝
 DDDoS = new DDDoS({
-	maxWeight: 6,
+	maxWeight: 25,
 	checkInterval: 10000,
 	rules: [{
-		regexp: "^/(cf|dict|gwalli)",
-		maxWeight: 20,
-		errorData: "429 Too Many Requests"
+		regexp: "^/(cf|dict|gwalli|servers|shop)",
+		maxWeight: 50,
+		errorData: "오류 코드 : 429 Too Many Requests / 짧은 시간에 너무 많이 요청을 하신거 같아요! 30초 후에 다시 시도해주세요"
 	}, {
 		regexp: ".*",
-		errorData: "429 Too Many Requests"
+		errorData: "오류 코드 : 429 Too Many Requests / 짧은 시간에 너무 많이 요청을 하신거 같아요! 30초 후에 다시 시도해주세요"
 	}]
 });
 DDDoS.rules[0].logFunction = DDDoS.rules[1].logFunction = function(ip, path){
 	JLog.warn(`DoS from IP ${ip} on ${path}`);
 };
-Server.use(DDDoS.express());*/
+Server.use(DDDoS.express());
 
 WebInit.init(Server, true);
 DB.ready = function(){
@@ -248,10 +322,10 @@ Server.get("/", function(req, res){
 			'KO_THEME': Const.KO_THEME,
 			'EN_THEME': Const.EN_THEME,
 			'IJP_EXCEPT': Const.IJP_EXCEPT,
-			'ogImage': "http://kkutu.kr/img/kkutu/logo.png",
-			'ogURL': "http://kkutu.kr/",
-			'ogTitle': "글자로 놀자! 끄투 온라인",
-			'ogDescription': "끝말잇기가 이렇게 박진감 넘치는 게임이었다니!"
+			'ogImage': "https://cdn.kkutu.us/img/OGIMG.png",
+			'ogURL': "https://kkutu.us/",
+			'ogTitle': "글자로 놀자! 끄투어스!",
+			'ogDescription': "끄투어스에서 여러분들의 어휘력을 마음껏 발휘해보세요! // 끄투, 끄투온라인, 끝말잇기, 초성퀴즈, 자음퀴즈, 단어대결, 타자대결, 십자말풀이, 끄투어스"
 		});
 	}
 });
