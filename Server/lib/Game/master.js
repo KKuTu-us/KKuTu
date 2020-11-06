@@ -116,6 +116,9 @@ function processAdmin(id, value){
 				JLog.success("Dumping success.");
 			});*/
 			return null;
+		case "stop":
+			KKuTu.publish("yell", { value: `서버가 곧 종료 또는 재시작 됩니다. 모든 활동을 종료해 주세요.` });
+			return null;
 	}
 	return value;
 }
@@ -293,7 +296,7 @@ exports.init = function(_SID, CHAN){
 				JLog.warn("Error on #" + key + " on ws: " + err.toString());
 			});
 			// 웹 서버
-			if(info.headers.host === "game:8080"){
+ 			if(info.headers.host.match(/^127\.0\.0\.2:/)){
 				if(WDIC[key]) WDIC[key].socket.close();
 				WDIC[key] = new KKuTu.WebServer(socket);
 				JLog.info(`New web server #${key}`);
@@ -313,10 +316,13 @@ exports.init = function(_SID, CHAN){
 				$c.admin = GLOBAL.ADMIN.indexOf($c.id) != -1;
 				$c.remoteAddress = info.connection.remoteAddress;
 				
-				if(DIC[$c.id]){
+			/*	if(DIC[$c.id]){
 					DIC[$c.id].sendError(408);
 					DIC[$c.id].socket.close();
 				}
+				
+				*/
+				
 				if(DEVELOP && !Const.TESTER.includes($c.id)){
 					$c.sendError(500);
 					$c.socket.close();

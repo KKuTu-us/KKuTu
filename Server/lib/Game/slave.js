@@ -132,11 +132,7 @@ Server.on('connection', function(socket, info){
 	MainDB.session.findOne([ '_id', key ]).limit([ 'profile', true ]).on(function($body){
 		$c = new KKuTu.Client(socket, $body ? $body.profile : null, key);
 		$c.admin = GLOBAL.ADMIN.indexOf($c.id) != -1;
-		
-		if(DIC[$c.id]){
-			DIC[$c.id].send('error', { code: 408 });
-			DIC[$c.id].socket.close();
-		}
+
 		if(DEVELOP && !Const.TESTER.includes($c.id)){
 			$c.send('error', { code: 500 });
 			$c.socket.close();

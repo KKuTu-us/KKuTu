@@ -33,7 +33,7 @@ var CHAN;
 var channel = process.env['CHANNEL'] || 0;
 
 const NUM_SLAVES = 4;
-const GUEST_IMAGE = "/img/kkutu/guest.png";
+const GUEST_IMAGE = "https://cdn.kkutu.us/img/kkutu/guest.png";
 const MAX_OKG = 18;
 const PER_OKG = 600000;
 
@@ -450,7 +450,6 @@ exports.Client = function(socket, profile, sid){
 				my.okgCount = Math.floor((my.data.playTime || 0) / PER_OKG);
 			}
 			if(black) R.go({ result: 444, black: black });
-			else if(Cluster.isMaster && $user.server) R.go({ result: 409, black: $user.server });
 			else if(exports.NIGHT && my.isAjae === false) R.go({ result: 440 });
 			else R.go({ result: 200 });
 		});
@@ -517,9 +516,6 @@ exports.Client = function(socket, profile, sid){
 			}
 			if($room.players.length >= $room.limit + (spec ? Const.MAX_OBSERVER : 0)){
 				return my.sendError(429);
-			}
-			if($room.players.indexOf(my.id) != -1){
-				return my.sendError(409);
 			}
 			if(Cluster.isMaster){
 				my.send('preRoom', { id: $room.id, pw: room.password, channel: $room.channel });
@@ -926,11 +922,13 @@ exports.Room = function(room, channel){
 		var x = my.players.indexOf(client.id);
 		var me;
 		
-		if(x == -1){
+	/*	if(x == -1){
 			client.place = 0;
 			if(my.players.length < 1) delete ROOM[my.id];
 			return client.sendError(409);
 		}
+		*/
+		
 		my.players.splice(x, 1);
 		client.game = {};
 		if(client.id == my.master){
