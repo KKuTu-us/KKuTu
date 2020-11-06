@@ -17,18 +17,18 @@
 extends ./ext
 
 mixin Img(name, w, h)
-	- var path = "/img/kkutu/help/" + name + ".png";
+	- var path = "https://cdn.kkutu.us/img/kkutu/help/" + name + ".png";
 	- if(h)
 		img(src=path, width=w, height=h)
 	- else
 		img(src=path)
 
 block JS
-	script(type='text/javascript', src='/js/jquery.js')
-	script(type='text/javascript', src='/js/in_game_kkutu_help.min.js')
+	script(type='text/javascript', src='https://cdn.kkutu.us/js/jquery.js')
+	script(type='text/javascript', src='https://cdn.kkutu.us/js/in_game_kkutu_help.min.js')
 
 block CSS
-	link(rel='stylesheet', href='/css/in_game_kkutu_help.css')
+	link(rel='stylesheet', href='https://cdn.kkutu.us/css/in_game_kkutu_help.css')
 
 block Middle
 	div#index

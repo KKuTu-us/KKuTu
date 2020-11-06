@@ -24,6 +24,8 @@ doctype html
 html
 	head
 		title= L('title')
+		div.login-title 끄투어스 로그인
+		meta(name='viewport', content='width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no')
 		+PageHead()
 	body
 		span#locale= JSON.stringify(LANG)
@@ -34,4 +36,6 @@ html
 			a(href="/login/" + val.vendor)
 				button(style="color: " + val.fontColor + "; background-color: " + val.color + ";")= L(val.displayName)
 		//볕뉘 수정 끝
-		div.login-legal!= L('loginLegal')
+		div.login-legal!= (`끄투어스에 로그인하면 SNS 관련 개인정보를 수집하게 됩니다.`)
+
+	

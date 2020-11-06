@@ -19,25 +19,13 @@
 	* Login 을 Passport 로 수행하기 위한 수정
 -
 	const MENU = [
-		{ key: 'HOME', href: "http://jjo.kr/" },
-		/*{ key: 'DB', sub: [
-			{ key: 'DB_CHAMP', href: "/db/champion" },
-			{ key: 'DB_ITEM', href: "/db/item" },
-			{ key: 'DB_RUNE', href: "/db/rune" },
-			{ key: 'DB_MASTERY', href: "/db/mastery" }
-		]},*/
-		{ key: 'GAMES', sub: [
-			{ key: 'GAMES_KKUTU', href: "/" },
-			{ key: 'GAMES_FATES', href: "http://jjo.kr/game/fates" }
-		]},
-		{ key: 'GALLERY', href: "http://jjo.kr/gallery" }
+		{ key: 'HOME', href: "https://kkutu.us/" },
 	];
 	const PUBLIC = locals.published;
 	
 	var DATA = locals.data || {};
 	var LANG = locals.locale;
 	var SESSION = locals.session;
-
 	function L(id){
 		var R = LANG[id] || "(L#"+id+")", i;
 		
@@ -55,7 +43,6 @@
 		for(i in res) res[i] = ((res[i] < 10) ? "0" : "") + res[i];
 		return res.join("").toString();
 	};
-
 mixin Menu()
 	div.Menu
 		- for(i in MENU)
@@ -66,9 +53,9 @@ mixin Menu()
 					div.menu-sub-separator
 					- for(j in MENU[i].sub)
 						div.menu-sub-btn(onclick='location.href = "'+MENU[i].sub[j].href+'";')!= L(MENU[i].sub[j].key)
-		div#quick-search
-			input#quick-search-tf(placeholder=L('QUICK_HOLDER'))
-			button#quick-search-btn!= L('QUICK_BTN')
+		//div#quick-search
+		//	input#quick-search-tf(placeholder=L('QUICK_HOLDER'))
+		//	button#quick-search-btn!= L('QUICK_BTN')
 		div#account
 			span#profile= SESSION.profile ? JSON.stringify(SESSION.profile) : '{}'
 			div#account-info
@@ -78,12 +65,10 @@ mixin MMenu()
 		div.menu-btn(id='menu-item-GAMES')
 			+FA('bars')
 			+separator(10)
-			div.menu-sub-btn(onclick='location.href = "http://jjo.kr/";', style='margin: 7px 0px; height: 25px;')!= L('HOME')
-			div.menu-sub-btn(onclick='location.href = "http://kkutu.kr/";', style='margin: 7px 0px; height: 25px;')!= L('GAMES_KKUTU')
-			div.menu-sub-btn(onclick='location.href = "http://jjo.kr/gallery";', style='margin: 7px 0px; height: 25px;')!= L('GALLERY')
-		div#quick-search
-			input#quick-search-tf(placeholder=L('QUICK_HOLDER'))
-			button#quick-search-btn!= L('QUICK_BTN')
+			div.menu-sub-btn(onclick='location.href = "https://kkutu.us/";', style='margin: 7px 0px; height: 25px;')!= L('HOME')
+		//div#quick-search
+		//	input#quick-search-tf(placeholder=L('QUICK_HOLDER'))
+		//	button#quick-search-btn!= L('QUICK_BTN')
 		div#account
 			span#profile= SESSION.profile ? JSON.stringify(SESSION.profile) : '{}'
 			div#account-info
@@ -101,21 +86,21 @@ mixin separator(len)
 	
 mixin PageHead(min)
 	if !min
-		link(rel='stylesheet', href=(locals.mobile && !locals.as_pc) ? '/css/m_style.css' : '/css/style.css')
-		link(rel='stylesheet', href='/css/fa.css')
-		link(rel='stylesheet', href='/css/expl.css')
-	script(type='text/javascript', src='/js/jquery.js')
-	script(type='text/javascript', src='/language/'+locals.page.replace("/", "_")+'/'+locals.lang)
+		link(rel='stylesheet', href=(locals.mobile && !locals.as_pc) ? 'https://cdn.kkutu.us/css/m_style.css' : 'https://cdn.kkutu.us/css/style.css')
+		link(rel='stylesheet', href='https://cdn.kkutu.us/css/fa.css')
+		link(rel='stylesheet', href='https://cdn.kkutu.us/css/expl.css')
+	script(type='text/javascript', src='https://cdn.kkutu.us/js/jquery.js')
+	script(type='text/javascript', src='https://cdn.kkutu.us/language/'+locals.page.replace("/", "_")+'/'+locals.lang)
 	
 	if PUBLIC && !SESSION.admin
-		//script(type='text/javascript', src='/js/google.js')
-	script(type='text/javascript', src='/js/global.min.js')
+		//script(type='text/javascript', src='https://cdn.kkutu.us/js/google.js')
+	script(type='text/javascript', src='https://cdn.kkutu.us/js/global.min.js')
 	if !min
-		//script(type='text/javascript', src='/js/facebook.js')
+		//script(type='text/javascript', src='https://cdn.kkutu.us/js/facebook.js')
 	if block
 		block
-	link(rel='stylesheet', href='/css/in_'+locals.page.replace("/", "_")+'.css')
-	script(type='text/javascript', src='/js/in_'+locals.page.replace("/", "_")+'.min.js')
+	link(rel='stylesheet', href='https://cdn.kkutu.us/css/in_'+locals.page.replace("/", "_")+'.css')
+	script(type='text/javascript', src='https://cdn.kkutu.us/js/in_'+locals.page.replace("/", "_")+'.min.js')
 	
 mixin SearchBox(arg1, arg2)
 	meta(name='description', content=L('meta_desc', arg1, arg2))

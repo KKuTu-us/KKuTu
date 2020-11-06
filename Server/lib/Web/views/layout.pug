@@ -14,6 +14,10 @@
 
 	You should have received a copy of the GNU General Public License
 	along with this program. If not, see <http://www.gnu.org/licenses/>.
+	
+	    Help me
+	Please..
+
 include module
 
 - if(LANG == undefined) LANG = locals.locale;
@@ -31,16 +35,24 @@ html
 			getObject(window.WebSocket, "send");
 			getObject(window.WebSocket, "onmessage");
 			getObject(window, "WebSocket");
+						
+		script.
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+			ga('create', 'G-X13ZNKK7TS', 'auto');
+			ga('send', 'pageview');
 
 		block Search
 			meta(name='description', content=LANG['meta_desc'] || L('META_DESC'))
 			meta(name='keywords', content=LANG['meta_keys'] || L('META_KEYS'))
 
 		block OpenGraph
-			meta(property='og:image', content=locals.ogImage || "http://JJo.kr/img/ogImage.png")
-			meta(property='og:url', content=locals.ogURL || "http://JJo.kr/")
-			meta(property='og:title', content=locals.ogTitle || "쪼롤 - League of Legends 정보 검색 사이트")
-			meta(property='og:description', content=locals.ogDescription || "롤 전적검색은 JJO.KR")
+			meta(property='og:image', content=locals.ogImage || "https://cdn.kkutu.us/img/OGIMG.png")
+			meta(property='og:url', content=locals.ogURL || "https://kkutu.us/")
+			meta(property='og:title', content=locals.ogTitle || "끄투어스!")
+			meta(property='og:description', content=locals.ogDescription || "끄투어스에서 여러분들의 어휘력을 마음껏 발휘해보세요!")
 
 		+PageHead()
 			block Preload
@@ -58,7 +70,7 @@ html
 		div#Jungle
 			span#mobile= locals.mobile
 			span#summonerID= DATA._id
-			img#Background(src='/img/bg/' + (locals.bg || 'def.png'))
+			img#Background(src='https://cdn.kkutu.us/img/bg/' + (locals.bg || 'def.png'))
 			block Jungle
 		div#Middle
 			block Middle
@@ -68,7 +80,7 @@ html
 				if locals.as_pc
 					a(href='?')= L('AS_MOBILE')
 				br
-				a.bottom-contact(href='http://blog.jjo.kr/', target='_blank')= L('CREATOR')
-				a.bottom-contact(href='mailto:op@jjo.kr', target='_blank') Contact op@jjo.kr
+				a.bottom-contact(href='https://blog.parkdongin.com/', target='_blank')= L('CREATOR')
+				a.bottom-contact(href='mailto:support@kkutu.us', target='_blank') Contact support@kkutu.us
 			div.bottom-legal!= L('GPL')
 			+separator(10)

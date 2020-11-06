@@ -41,15 +41,15 @@ block Subject
 	title= L('title')
 	
 block JS
-	script(type='text/javascript', src='/js/in_game_kkutu.min.js')
+	script(type='text/javascript', src='https://cdn.kkutu.us/js/in_game_kkutu.min.js')
 	script(src='https://www.google.com/recaptcha/api.js')
 	
 block CSS
-	link(rel='stylesheet', href='/css/in_game_kkutu_shop.css')
+	link(rel='stylesheet', href='https://cdn.kkutu.us/css/in_game_kkutu_shop.css')
 	
 block Jungle
 	span#PUBLIC= PUBLIC ? "true" : undefined
-	span#URL= `${locals.PROTOCOL}://${locals.HOST}:${locals.PORT}/${locals._id}`
+	span#URL= `${locals.PROTOCOL}://ws.kkutu.us:${locals.PORT}/${locals._id}`
 	span#MOREMI_PART= locals.MOREMI_PART.join(',')
 	span#AVAIL_EQUIP= locals.AVAIL_EQUIP.join(',')
 	span#RULE= JSON.stringify(locals.RULE)
@@ -67,8 +67,8 @@ block Middle
 	- var VERSION = L('version') + " (모바일)";
 	- var nick = SESSION.profile ? (SESSION.profile.title || SESSION.profile.name) : null;
 	div#Intro
-		img#intro(src='/img/kkutu/m_intro.png')
-		//- img#intro-start(src='/img/kkutu/intro_start.gif')
+		img#intro(src='https://cdn.kkutu.us/img/kkutu/m_intro.png')
+		//- img#intro-start(src='https://cdn.kkutu.us/img/kkutu/intro_start.gif')
 		div#version= VERSION
 		div#intro-text= L('LOADING')
 	div.kkutu-menu
@@ -360,9 +360,9 @@ block Middle
 				input#cw-q-input(placeholder=L('inputHere'), style='width: 313px; height: 20px; font-size: 15px;')
 				div.cw-q-body
 			div.jjoriping
-				img.jjoObj.jjoEyeL(src='/img/jjoeyeL.png')
-				img.jjoObj.jjoNose(src='/img/jjonose.png')
-				img.jjoObj.jjoEyeR(src='/img/jjoeyeR.png')
+				img.jjoObj.jjoEyeL(src='https://cdn.kkutu.us/img/jjoeyeL.png')
+				img.jjoObj.jjoNose(src='https://cdn.kkutu.us/img/jjonose.png')
+				img.jjoObj.jjoEyeR(src='https://cdn.kkutu.us/img/jjoeyeR.png')
 				div.jjoDisplayBar
 					div.jjo-display
 					+GraphBar('jjo-turn-time')
@@ -384,6 +384,5 @@ block Middle
 
 block Bottom
 	div#facebook-menu
-		div.fb-like(data-href='http://jjo.kr/kkutu', data-width='300', data-layout='button_count', data-action='like', data-show-faces='true', data-share='true')
+		div.fb-like(data-href='https://kkutu.us', data-width='300', data-layout='button_count', data-action='like', data-show-faces='true', data-share='true')
 	div.bottom-legal!= L('dictionarySupport')
-	div.bottom-legal!= L('etcSupport')
